@@ -8,29 +8,21 @@
         <p class = 'name'> Mr. meow</p>
         <p class = 'job'> web developer</p>
     </div>
-    <div class ='socialMedia'>
-      <div class="icon"></div>
-      <div class="icon"></div>
-      <div class="icon"></div>
-      <div class="icon"></div>
+    <div class="socialMedia">
+        <div v-for="(icon, index) in icons" :key="index" class="icon">
+          <i :class="icon"></i>
+        </div>
     </div>
     <div class = 'buttons'>
       <button class ='button'>Subscribe</button>
       <button class ='button'>Manage</button>
     </div>
     <div class ='likeComment'>
-      <div class = 'section'>
-        <div class="icon"></div>
-        <div class="text">60.4k</div>
-      </div>
-      <div class = 'section'>
-        <div class="icon"></div>
-        <div class="text">20k</div>
-      </div>
-      <div class = 'section'>
-        <div class="icon"></div>
-        <div class="text">12.4k</div>
-      </div>
+      <div v-for="(element, index) in likeCommentIcon" :key="index" :class= "{'section': true, 'sectionBorder' : index != 0 }" >
+      <i :class="element.icon"></i>
+      <i class="text">{{ element.text }}</i>
+    </div>
+      
     </div>
   </div>
 </template>
@@ -39,8 +31,31 @@
 
 
 export default {
-  
-}
+  data() {
+    return {
+      icons: [
+        "fab fa-facebook-f",
+        "fab fa-twitter",
+        "fab fa-instagram",
+        "fab fa-linkedin-in",
+      ],
+      likeCommentIcon: [
+        {
+          icon: "fas fa-thumbs-up",
+          text: '10k'
+        },
+        {
+          icon: "fas fa-comment",
+          text: '20k'
+        },
+        {
+          icon: "fas fa-share",
+          text: '30k'
+        }
+      ],
+    };
+  },
+};
 </script>
 
 <style>
@@ -54,6 +69,7 @@ body, html {
 }
 
 .card {
+  background-color: #E8ECD7;
   position: relative;
   width: 20vw;
   height: 50vh;
@@ -63,7 +79,7 @@ body, html {
 
 .top {
   height: 25%;
-  background-color: blue;
+  background-color: #47663B;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -72,41 +88,64 @@ body, html {
   margin-bottom: 0;
 }
 
-.top .profile{
+.top .profile {
+  position: relative;
   margin-top: 15%;
-  background-image: url('/src/assets/profile.jpg');
-  background-size: cover;
   width: 100px;
   height: 100px;
-  max-width: 100px;
-  max-height: 100px;
-  border-radius: 50px;
-  background-color: white;
+  border-radius: 60px;
+  background-image: url('/src/assets/profile.jpg');
+  background-size: cover;
+  background-position: center;
+  /* overflow: hidden;  */
 }
+
+
+.top .profile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  padding: 5px; /* Adjust thickness of the border */
+  border-radius: inherit; /* Keeps it rounded */
+  background: linear-gradient(45deg, #1F4529,#EED3B1); /* Adjust gradient colors */
+  -webkit-mask: 
+    linear-gradient(white 0 0) content-box, 
+    linear-gradient(white 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+}
+
+
 .info {
   margin-top: 10%;
   flex-direction: column;
   display: flex;
   justify-content: center;
   align-items: center;
+  
 }
 .job{
   margin: 1%;
   margin-bottom: 5%;
+  font-size: 14px; /* Adjust text size */
+  font-family: 'Orbitron', sans-serif; /* Change font */
+  font-weight: bold;
 }
 .name {
 margin-top: 4%;
 margin-bottom: 1%;
+font-size: 20px; /* Adjust text size */
+font-family: 'Orbitron', sans-serif;
+font-weight: bold;
 }
 .socialMedia{
-  background-color: white;
+  
   height: 15%;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 .socialMedia .icon{
-  background-image: url('/src/assets/telegram.png');
   background-size: cover;
   width: 35px;
   height: 30px;
@@ -120,10 +159,20 @@ margin-bottom: 1%;
   justify-content: center;
   align-items: center;
 }
-.button {
+
+
+button {
   width: 35%;
   height: 50%;
+  background: #1F4529; 
+  color: white;
+  font-size: 18px;
+  border: none;
+  margin: auto;
+  border-radius: 5px; 
 }
+
+
 .likeComment{
   height: 15%;
   display: flex;
@@ -134,11 +183,15 @@ margin-bottom: 1%;
 .likeComment .section{
   width: 30%;
   height: 80%;
-  border-right: black solid 1px;
   display: flex;
   justify-content: center;
   align-items: center;
 }
+.likeComment .sectionBorder{
+  border-left: black solid 1px;
+}
+
+
 .likeComment .section .icon {
   background-image: url('/src/assets/like.png');
   background-size: cover;
