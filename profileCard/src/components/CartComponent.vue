@@ -1,11 +1,12 @@
 <template>
-  <div class = 'card'>
+  <div class="transparent" v-if="showBox" @click.self="hideBox">
+  <div class = 'card' >
     <div class = 'top'>
       <div class="profile"></div>
     </div>
     <div class = 'info'>
-        <p class = 'name'> Mr. meow</p>
-        <p class = 'job'> web developer</p>
+        <p class = 'name'> {{user.name}}</p>
+        <p class = 'job'> {{user.job}}</p>
     </div>
     <div class="socialMedia">
         <div v-for="(icon, index) in icons" :key="index" class="icon">
@@ -24,10 +25,12 @@
       
     </div>
   </div>
+  </div>
 </template>
 
 <script>
 export default {
+  props: ["showBox", "user"],
   data() {
     return {
       icons: [
@@ -36,6 +39,7 @@ export default {
         "fab fa-instagram",
         "fab fa-linkedin-in",
       ],
+      
       likeCommentIcon: [
         {
           icon: "fas fa-thumbs-up",
@@ -52,11 +56,26 @@ export default {
       ],
     };
   },
+  methods:{
+    hideBox() {
+      this.$emit('hideBox')
+    }
+  }
 };
 </script>
 
 
 <style scoped>
+.transparent{
+  top: 0;
+  position:fixed;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.781);
+}
 .card {
   background-color: #E8ECD7;
   position: relative;
@@ -193,4 +212,6 @@ button {
 .likeComment .section .text{
    float: right;
 }
+
+
 </style>
